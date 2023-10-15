@@ -1,27 +1,21 @@
 package com.cgvsu.utils;
 
-import javafx.scene.paint.Color;
-
-public class Pixel {
-
+public class Point {
     private final int x;
     private final int y;
-    private final Color color;
-    public Pixel(int x, int y, Color color) {
+    private final double distance;
+    public Point(int x, int y, double distance) {
         this.x = x;
         this.y = y;
-        this.color = color;
+        this.distance = distance;
     }
-
     public int getX() {
         return x;
     }
-
     public int getY() {
         return y;
     }
-
-    public Color getColor() {
-        return color;
+    public double getDistance() {
+        return distance;
     }
 }

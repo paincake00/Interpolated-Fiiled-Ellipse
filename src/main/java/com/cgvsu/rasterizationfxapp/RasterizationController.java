@@ -1,13 +1,14 @@
 package com.cgvsu.rasterizationfxapp;
 
-import com.cgvsu.algorithms.FilledEllipse;
+import com.cgvsu.interfaces.Drawable;
+import com.cgvsu.figures.FilledEllipse;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.AnchorPane;
 
-import com.cgvsu.rasterization.*;
 import javafx.scene.paint.Color;
+
+import java.util.ArrayList;
 
 public class RasterizationController {
 
@@ -21,10 +22,18 @@ public class RasterizationController {
         anchorPane.prefWidthProperty().addListener((ov, oldValue, newValue) -> canvas.setWidth(newValue.doubleValue()));
         anchorPane.prefHeightProperty().addListener((ov, oldValue, newValue) -> canvas.setHeight(newValue.doubleValue()));
 
-        Rasterization rasterization = new Rasterization();
+        ArrayList<Drawable> figures = new ArrayList<>();
+        Drawable figure = new FilledEllipse(
+                (int)(canvas.getWidth() / 2),
+                (int)(canvas.getHeight() / 2),
+                200,
+                100,
+                Color.BLACK);
+        figure.interpolate(Color.AQUA, Color.BLACK);
+        figures.add(figure);
 
-        rasterization.draw(canvas.getGraphicsContext2D(), new FilledEllipse((int)(canvas.getWidth() / 2),
-                (int)(canvas.getHeight() / 2), 200, 100, Color.BLACK, Color.GREEN).fillEllipse());
-
+        for (Drawable f : figures) {
+            f.draw(canvas.getGraphicsContext2D());
+        }
     }
 }

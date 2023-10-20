@@ -1,8 +1,9 @@
 package com.cgvsu.figures;
 
-import com.cgvsu.interfaces.DataReturner;
+import com.cgvsu.interfaces.PointsForEllipse;
 import com.cgvsu.algorithms.FilledEllipseAlgorithm;
 import com.cgvsu.interfaces.Drawable;
+import com.cgvsu.interfaces.PointsForEllipse;
 import com.cgvsu.utils.Point;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.PixelWriter;
@@ -19,7 +20,7 @@ public class FilledEllipse implements Drawable {
     private Color colorCenter = null;
     private Color colorBorder = null;
     private boolean interpolation = false;
-    private DataReturner algorithm = null;
+    private PointsForEllipse algorithm = null;
     public FilledEllipse(int xCenter, int yCenter, int a, int b, Color color) {
         this.xCenter = xCenter;
         this.yCenter = yCenter;
@@ -34,15 +35,14 @@ public class FilledEllipse implements Drawable {
         this.colorBorder = colorBorder;
     }
     @Override
-    public void changeAlgorithm(DataReturner algorithm) {
+    public void changeAlgorithm(PointsForEllipse algorithm) {
         this.algorithm = algorithm;
     }
     private List<Point> useAlgorithm() {
         if (algorithm == null) {
             algorithm = new FilledEllipseAlgorithm();
         }
-        algorithm.setParametersForEllipse(xCenter, yCenter, a, b);
-        return algorithm.getPoints();
+        return algorithm.computePoint(xCenter, yCenter, a, b);
     }
     @Override
     public void draw(GraphicsContext gc) {
@@ -52,7 +52,8 @@ public class FilledEllipse implements Drawable {
             pixelWriter.setColor(
                     point.getX(),
                     point.getY(),
-                    interpolation ? colorCenter.interpolate(colorBorder, point.getDistance()) : color
+                    interpolation ? colorCenter.interpolate(colorBorder,
+                            Math.sqrt(Math.pow((double)(point.getX() - xCenter) / a, 2) + Math.pow((double)(point.getY() - yCenter) / b, 2))) : color
             );
         }
     }

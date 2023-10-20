@@ -6,5 +6,5 @@ import javafx.scene.paint.Color;
 public interface Drawable {
     void draw(GraphicsContext gc);
     void interpolate(Color colorCenter, Color colorBorder);
-    void changeAlgorithm(DataReturner algorithm);
+    void changeAlgorithm(PointsForEllipse algorithm);
 }
